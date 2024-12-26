@@ -1,0 +1,17 @@
+{
+  "name": "processor",
+  "module": "src/index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@repo/db": "*",
+    "@repo/store": "*",
+    "@repo/ui": "*",
+    "kafkajs": "^2.2.4"
+  }
+}

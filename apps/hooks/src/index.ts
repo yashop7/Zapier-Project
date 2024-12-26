@@ -1,8 +1,5 @@
 import express from "express";
-import { PrismaClient } from "@prisma/client";
-
-const client = new PrismaClient();
-
+import prisma from "@repo/db";
 const app = express();
 app.use(express.json());
 
@@ -14,14 +11,15 @@ app.post("/hooks/catch/:userId/:zapId", async (req, res) => {
   const body = req.body;
 
   // store in db a new trigger
-  await client.$transaction(async (tx: PrismaClient) => {
+  await prisma.$transaction(async (tx: any) => {
+    //Here we are Following a OutBox Pattern, Like we are storing the data in a outbox table and then we are processing it in the background
     const run = await tx.zapRun.create({
       data: {
         zapId: zapId,
         metadata: body
       }
     });
-
+    
     await tx.zapRunOutbox.create({
       data: {
         zapRunId: run.id

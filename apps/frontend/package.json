@@ -13,6 +13,7 @@
     "@repo/ui": "*",
     "@types/bcrypt": "^5.0.2",
     "bcrypt": "^5.1.1",
+    "docs": "workspace:*",
     "next": "^15.1.2",
     "next-auth": "^4.24.11",
     "react": "^19.0.0",
