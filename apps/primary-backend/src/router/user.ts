@@ -11,9 +11,10 @@ router.post("/signup", authmiddleware, async (req, res) => {
   const parsedData = Signupschema.safeParse(body);
 
   if (!parsedData.success) {
-    return res.status(411).json({
+     res.status(411).json({
       message: "Invalid data",
     });
+    return;
   }
 
   const userExists = await prisma.user.findFirst({
@@ -23,7 +24,7 @@ router.post("/signup", authmiddleware, async (req, res) => {
   });
 
   if (userExists) {
-    return res.status(403).json({
+     res.status(403).json({
       message: "User already exists",
     });
   }
@@ -39,7 +40,7 @@ router.post("/signup", authmiddleware, async (req, res) => {
   //we will tell User to Check his email
   //await sendEmail()
 
-  return res.status(200).json({
+  res.status(200).json({
     message: "Please verify your account from Email",
   });
 });
@@ -49,9 +50,10 @@ router.get("/signin", authmiddleware, async (req, res) => {
   const parsedData = Signupschema.safeParse(body);
 
   if (!parsedData.success) {
-    return res.status(411).json({
+    res.status(411).json({
       message: "Invalid data",
     });
+    return;
   }
 
   const userExists = await prisma.user.findFirst({
@@ -62,9 +64,10 @@ router.get("/signin", authmiddleware, async (req, res) => {
   });
 
   if (!userExists) {
-    return res.status(403).json({
+    res.status(403).json({
       message: "User does not exist",
     });
+    return;
   }
 
   //Sign the JWT token and send it to the user
@@ -82,7 +85,7 @@ router.get("/signin", authmiddleware, async (req, res) => {
 
 router.get("/user", authmiddleware, async (req, res) => {
     // @ts-ignore
-    const id = req.id;
+    const id = req.id; //we will get this thing from middleware
     const user = await prisma.user.findFirst({
         where : {
             id : id
@@ -93,7 +96,7 @@ router.get("/user", authmiddleware, async (req, res) => {
         }
     });
 
-    return res.json({
+    res.json({
         user
     })
 
