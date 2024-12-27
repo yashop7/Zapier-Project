@@ -1,6 +1,9 @@
 {
   "name": "hooks",
   "module": "index.ts",
+  "scripts": {
+    "start": "tsc -b && node dist/index.js"
+  },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },

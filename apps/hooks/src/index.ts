@@ -3,6 +3,7 @@ import prisma from "@repo/db";
 const app = express();
 app.use(express.json());
 
+
 // https://hooks.zapier.com/hooks/catch/17043103/22b8496/
 // password logic
 app.post("/hooks/catch/:userId/:zapId", async (req, res) => {
