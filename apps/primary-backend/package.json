@@ -3,22 +3,22 @@
   "module": "src/index.ts",
   "type": "module",
   "scripts": {
-    "start": "tsc -b && node dist/index.js"
+    "dev": "bun run --watch src/index.ts",
+    "start": "bun run src/index.ts",
+    "build": "bun build src/index.ts --outdir ./dist"
   },
   "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
-  "dependencies": {
+    "bun-types": "latest",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.7",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@repo/db": "*",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
-    "primary-backend": "workspace:*",
     "zod": "^3.24.1"
   }
 }
