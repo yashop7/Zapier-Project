@@ -1,8 +1,10 @@
 {
   "name": "hooks",
-  "module": "index.ts",
+  "module": "src/index.ts",
   "scripts": {
-    "start": "tsc -b && node dist/index.js"
+    "dev": "bun run --watch src/index.ts",
+    "start": "bun run src/index.ts",
+    "build": "bun build src/index.ts --outdir ./dist"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

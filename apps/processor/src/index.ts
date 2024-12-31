@@ -1,4 +1,4 @@
-import prisma from "@repo/db";
+import prisma from "@repo/db/client";
 import { Kafka } from "kafkajs";
 
 const TOPIC_NAME = "zap-events";
@@ -18,10 +18,10 @@ async function main() {
       take: 10,
     });
 
-    pendingRows.forEach((r) => {
+    pendingRows.forEach((r: any) => {
       producer.send({
         topic: TOPIC_NAME,
-        messages: pendingRows.map((r) => ({
+        messages: pendingRows.map((r: { zapRunId: any; }) => ({
           value: r.zapRunId
         })),
       });
@@ -31,7 +31,7 @@ async function main() {
     await prisma.zapRunOutbox.deleteMany({
       where: {
         id: {
-          in: pendingRows.map((r) => r.id),
+          in: pendingRows.map((r: { id: any; }) => r.id),
         },
       },
     });

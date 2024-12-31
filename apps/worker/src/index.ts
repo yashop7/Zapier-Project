@@ -1,4 +1,4 @@
-import prisma from "@repo/db";
+import prisma from "@repo/db/client";
 import { Kafka } from "kafkajs";
 
 const TOPIC_NAME = "zap-events";
