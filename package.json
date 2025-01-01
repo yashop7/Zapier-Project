@@ -14,9 +14,10 @@
     "turbo": "latest"
   },
   "dependencies": {
+    "@repo/db": "*",
     "@repo/store": "*",
     "@repo/ui": "*",
-    "@repo/db" : "*",
+    "axios": "^1.7.9",
     "bun": "1.1.42"
   },
   "engines": {
@@ -25,10 +26,10 @@
   "packageManager": "bun@1.1.42",
   "workspaces": [
     "apps/*",
+    "apps/src/*",
     "packages/*"
   ],
   "prisma": {
     "schema": "./packages/db/prisma/schema.prisma"
   }
-
 }

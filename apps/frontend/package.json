@@ -1,5 +1,5 @@
 {
-  "name": "docs",
+  "name": "web",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -40,6 +40,7 @@
     "@repo/store": "*",
     "@repo/ui": "*",
     "@types/bcrypt": "^5.0.2",
+    "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
