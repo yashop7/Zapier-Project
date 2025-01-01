@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-export function LoginForm({
+export function SignupForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"form">) {
@@ -16,6 +16,11 @@ export function LoginForm({
         </p>
       </div>
       <div className="grid gap-6">
+        <div className="grid gap-2">
+          <Label htmlFor="name">Name</Label>
+          <Input id="name" type="text" placeholder="Enter your name" required/>
+        </div>
+
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
           <Input id="email" type="email" placeholder="m@example.com" required />
@@ -51,9 +56,9 @@ export function LoginForm({
         </Button>
       </div>
       <div className="text-center text-sm">
-        Don&apos;t have an account?{" "}
-        <a href="/signup" className="underline underline-offset-4">
-          Sign up
+        Already have an account?{" "}
+        <a href="login" className="underline underline-offset-4">
+          Login
         </a>
       </div>
     </form>
