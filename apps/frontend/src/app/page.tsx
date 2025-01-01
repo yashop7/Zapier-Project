@@ -1,8 +1,10 @@
-import prisma from "@repo/db/client";
+import { ModeToggle } from "@/components/theme-toggle";
+
 export default function Page() {
   return (
-   <div>
+   <div className="text-2xl ">
     Hello
+    <ModeToggle />
    </div>
   );
 }
