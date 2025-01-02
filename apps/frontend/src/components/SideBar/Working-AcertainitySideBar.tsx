@@ -11,6 +11,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import Footer from "../Footer/footer";
 
 export function SidebarDemo({ children }: { children: React.ReactNode }) {
   const links = [
@@ -47,8 +48,10 @@ export function SidebarDemo({ children }: { children: React.ReactNode }) {
   return (
     <div
       className={cn(
-        "rounded-md flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 max-w-7xl mx-auto border border-neutral-200 dark:border-neutral-700 overflow-hidden",
-        "h-[60vh]" // for your use case, use `h-screen` instead of `h-[60vh]`
+        "flex w-full flex-1 flex-col overflow-hidden rounded-md border border-neutral-200 bg-gray-100 dark:border-neutral-700 dark:bg-black md:flex-row",
+        "h-full",
+        // for your use case, use `h-screen` instead of `h-[60vh]`❌
+        //we should Use h-full here , as h-screen was causing issues
       )}
     >
       <Sidebar open={open} setOpen={setOpen}>
@@ -115,26 +118,16 @@ export const LogoIcon = () => {
 // Dummy dashboard component with content
 const Dashboard = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex flex-1">
-      <div className="p-2 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-full">
-        <div className="flex gap-2">
-          {[1,2,3,4].map((i) => (
-            <div
-              key={"first-array" + i}
-              className="h-20 w-full rounded-lg  bg-gray-100 dark:bg-neutral-800 animate-pulse"
-            ></div>
-          ))}
-        </div>
-        <div className="flex gap-2 flex-1">
-          {[1,2,4,5].map((i) => (
-            <div
-              key={"second-array" + i}
-              className="h-full w-full rounded-lg  bg-gray-100 dark:bg-neutral-800 animate-pulse"
-            ></div>
-          ))}
-        </div>
+<div className="flex min-h-screen w-full flex-col gap-2 rounded-tl-2xl border border-neutral-200 bg-black/5 p-2 dark:border-neutral-700 dark:bg-black ">
+      {/* AppBar at the top */}
+      {/* <AppbarClient /> */}
+
+      {/* Main content */}
+      <div className="no-scrollbar  rounded-xl overflow-y-auto p-2 bg-white dark:bg-black">{children}</div>
+
+      <div className="border-t border-neutral-200 dark:border-neutral-700 bg-white dark:bg-black">
+      <Footer />
       </div>
-      {children}
-    </div>
-  );
+        
+    </div>  );
 };
