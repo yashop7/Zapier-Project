@@ -87,7 +87,8 @@ export function LoginForm({
                       setLoading(false);
                       return;
                     }
-                    const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, body)
+                    const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, body);
+                    localStorage.setItem("token", response.data.token);
                     router.push("/");
                     setLoading(false);
                   }

@@ -3,6 +3,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Zap, Activity, Clock, Workflow } from "lucide-react";
 import { motion as m } from "framer-motion";
 import React from "react";
+import { WorkflowIcon } from "../IconsFolder/WorkFlow";
+import { ActivityIcon } from "../IconsFolder/Activity";
+import { AlarmClockIcon } from "../IconsFolder/Alarm-Clock";
+import { FlameIcon } from "../IconsFolder/Fire";
 
 
 export default function DashboardOverview() {
@@ -10,25 +14,25 @@ export default function DashboardOverview() {
     {
       title: "Active Zaps",
       value: "12",
-      icon: Zap,
+      icon: FlameIcon,
       description: "Running automations",
     },
     {
       title: "Tasks Today",
       value: "245",
-      icon: Activity,
+      icon: ActivityIcon,
       description: "Automated tasks completed",
     },
     {
       title: "Avg. Response",
       value: "1.2s",
-      icon: Clock,
+      icon: AlarmClockIcon,
       description: "Average task completion time",
     },
     {
       title: "Workflows",
       value: "8",
-      icon: Workflow,
+      icon: WorkflowIcon,
       description: "Active workflow templates",
     },
   ];
@@ -46,7 +50,7 @@ export default function DashboardOverview() {
               <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
                 {stat.title}
               </CardTitle>
-              {React.createElement(stat.icon, { className: "h-4 w-4 text-gray-600 dark:text-gray-400" })}
+              {React.createElement(stat.icon, { className: "size-1 text-gray-600 dark:text-gray-400" })}
               </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{stat.value}</div>
@@ -60,3 +64,4 @@ export default function DashboardOverview() {
     </div>
   );
 }
+

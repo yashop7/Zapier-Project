@@ -75,7 +75,12 @@ router.get("/", authmiddleware, async (req, res) => {
     where: {
       userId: id,
     },
-    include: {
+    select: {
+      id: true,
+      triggerId: true,
+      userId: true,
+      createdAt: true,
+      updatedAt: true,
       actions: {
         include: {
           type: true,
@@ -88,7 +93,7 @@ router.get("/", authmiddleware, async (req, res) => {
       },
     },
   });
-
+  
   res.json({
     zaps,
   });
