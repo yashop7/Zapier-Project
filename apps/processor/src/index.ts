@@ -13,25 +13,24 @@ async function main() {
   await producer.connect();
 
   while (1) {
-    const pendingRows = await prisma.zapRunOutbox.findMany({             
+    const pendingRows = await prisma.zapRunOutbox.findMany({
       where: {},
       take: 10,
     });
 
-    pendingRows.forEach((r: any) => {
-      producer.send({
-        topic: TOPIC_NAME,
-        messages: pendingRows.map((r: { zapRunId: any; }) => ({
-          value: r.zapRunId
-        })),
-      });
+    producer.send({
+      topic: TOPIC_NAME,
+      messages: pendingRows.map((r) => {
+        return {
+          value: JSON.stringify({ zapRunId: r.zapRunId, stage: 0 }),
+        };
+      }),
     });
-
     //Delete the rows that were sent to the Kafka topic
     await prisma.zapRunOutbox.deleteMany({
       where: {
         id: {
-          in: pendingRows.map((r: { id: any; }) => r.id),
+          in: pendingRows.map((r: { id: any }) => r.id),
         },
       },
     });
