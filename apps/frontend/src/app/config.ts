@@ -1,5 +1,6 @@
 import z from "zod";
 export const BACKEND_URL = "http://localhost:3001";
+export const HOOKS_URL = "http://localhost:3002"
 
 export const Signupschema = z.object({
     name : z.string().min(3),

@@ -14,6 +14,7 @@ import { Input } from "../ui/input";
 
 // Import DialogTitle so screen readers have a title for each DialogContent
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { Label } from "../ui/label";
 
 function getAvailableTriggers() {
   const [triggers, setTriggers] = useState<Type[]>([]);
@@ -157,11 +158,7 @@ export default function CreateZap() {
             draggable
             onDragStart={(e) => handleDragStart(e, a, "action")}
             whileHover={{ scale: 1.02 }}
-            className={`mb-2 cursor-pointer shadow-lg p-3 rounded-xl ${
-              chosenActions.some((x) => x.id === a.id)
-                ? "bg-white dark:bg-black"
-                : "hover:bg-gray-100 "
-            }`}
+            className={`mb-2 cursor-pointer shadow-lg p-3 rounded-xl bg-white dark:bg-black hover:bg-gray-100 dark:hover:bg-gray-800`}
             onClick={() => handleActionClick({ ...a, metadata: {} })}
           >
             <div className="flex items-center space-x-3">
@@ -187,7 +184,7 @@ export default function CreateZap() {
                 triggerMetadata: {},
                 actions: chosenActions.map((action) => ({
                   availableActionId: action.id,
-                  actionMetadata: {},
+                  actionMetadata: action.metadata,
                 })),
               },
               {
@@ -213,7 +210,7 @@ export default function CreateZap() {
           <h3 className="font-medium text-center mb-2">Drop Trigger Here</h3>
           {chosenTrigger ? (
             <Card className="p-4 bg-white dark:bg-lumadark relative max-w-sm mx-auto cursor-pointer hover:shadow-lg transition-shadow">
-              <CredenzaTriggerZap info={chosenTrigger} chosenTrigger={setChosenTrigger}/>
+              <CredenzaTriggerZap info={chosenTrigger} />
             </Card>
           ) : (
             <div className="text-gray-500 text-center">No trigger selected</div>
@@ -251,7 +248,7 @@ export default function CreateZap() {
   );
 }
 
-function CredenzaTriggerZap({ info , chosenActions , chosenTrigger }: { info: Type | null , chosenActions?: (action : any) => void , chosenTrigger?: (trigger : any) => void }) {
+function CredenzaTriggerZap({ info , chosenActions }: { info: Type | null , chosenActions?: React.Dispatch<React.SetStateAction<Action[]>> }) {
   return (
     <Credenza>
       <CredenzaTrigger asChild>
@@ -267,25 +264,28 @@ function CredenzaTriggerZap({ info , chosenActions , chosenTrigger }: { info: Ty
         <InformationEmail
           setMetadata={(metadata) => {
             if (chosenActions) {
-              chosenActions({
-                ...info, 
-                metadata
-              });
+              chosenActions((prev: Action[]) =>
+                prev.map((action) =>
+                  action.id === info?.id ? { ...action, metadata } : action
+                )
+              );
             }
           }}
         />
       )}
-      {info?.id === "sol" && <InformationSolana
-                setMetadata={(metadata) => {
-                  if (chosenActions) {
-                    chosenActions({
-                      ...info, 
-                      metadata
-                    });
-                  }
-                }}
-      
-      />}
+      {info?.id === "sol" && (
+        <InformationSolana
+          setMetadata={(metadata) => {
+            if (chosenActions) {
+              chosenActions((prev: Action[]) =>
+                prev.map((action) =>
+                  action.id === info?.id ? { ...action, metadata } : action
+                )
+              );
+            }
+          }}
+        />
+      )}
     </Credenza>
   );
 }
@@ -339,10 +339,10 @@ function InformationSolana({ setMetadata }: { setMetadata: (params: any) => void
   return (
     <CredenzaContent>
       <DialogTitle asChild>
-        <h4 className="font-semibold text-lg">Solana</h4>
+        <h4 className="font-semibold text-lg">Send Solana</h4>
       </DialogTitle>
-      <p className="text-gray-500">Send Solana</p>
       <div className="mt-2">
+        <Label htmlFor="address">Address</Label>
         <Input
           type="text"
           placeholder="Address"
@@ -351,7 +351,8 @@ function InformationSolana({ setMetadata }: { setMetadata: (params: any) => void
           className="w-full p-2 border border-gray-300 rounded-md"
         />
       </div>
-      <div className="mt-1">
+      <div className="">
+        <Label htmlFor="amount">Amount</Label>
         <Input
           type="number"
           placeholder="Amount"
