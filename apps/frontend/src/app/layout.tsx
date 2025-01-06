@@ -3,6 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import { ReactNode } from "react";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = DM_Sans({ subsets: ["latin"] });
 
@@ -17,8 +18,7 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
-      <html lang="en" suppressHydrationWarning>
-        <head />
+      <html lang="en" className="no-scrollbar" suppressHydrationWarning>
         <body className={inter.className} suppressHydrationWarning={true}>
           <ThemeProvider
             attribute="class"
@@ -27,6 +27,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             disableTransitionOnChange
           >
             {children}
+            
           </ThemeProvider>
         </body>
       </html>

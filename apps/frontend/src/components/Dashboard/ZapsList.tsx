@@ -61,7 +61,11 @@ export function ZapsList() {
   return (
     <Card className="border-black/5 dark:border-white/5">
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>My Zaps</CardTitle>
+        <CardTitle>
+          <span className="text-xl font-semibold dark:text-white">
+          My Zaps
+          </span>
+          </CardTitle>
         <Button
           onClick={() => router.push("/dashboard/create")}
           className="bg-black hover:bg-black/90 dark:bg-white dark:hover:bg-white/90 dark:text-black"

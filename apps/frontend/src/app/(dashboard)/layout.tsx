@@ -1,4 +1,5 @@
 import { SidebarDemo } from "@/components/SideBar/Working-AcertainitySideBar";
+import { Toaster } from "@/components/ui/toaster";
 import { JSX } from "react";
 
 
@@ -12,7 +13,6 @@ export default function Layout({
   return (
     <div className="h-screen w-full " >
       <SidebarDemo children={children}/>
-      
     </div>
   );
 }
