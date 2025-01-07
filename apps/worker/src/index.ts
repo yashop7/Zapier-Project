@@ -1,5 +1,7 @@
 import { Kafka } from "kafkajs";
 import prisma from "@repo/db/client";
+import { parse } from "./parser";
+require("dotenv").config();
 const TOPIC_NAME = "zap-events";
 
 const kafka = new Kafka({
@@ -52,17 +54,42 @@ async function main() {
 
       console.log("Processing Action: ", currentAction);
 
+      const zapRunMetadata = zapRunDetails?.metadata;
+      console.log("zapRunMetadata: ", zapRunMetadata);
+
       if(currentAction.type.id === "email"){
-        console.log("Sending Email");
-      }
+        try{
+          const metadata = currentAction.metadata as any;
+          console.log("metadata: ", metadata);
+          const body = parse(metadata.body, zapRunMetadata);
+          const to = parse(metadata.email, zapRunMetadata);
+          console.log(`Sending out email to ${to} body is ${body}`)
+        }
+        catch(e){
+          console.log("SHIT HAPPENS");
+          console.log("Error: ", e);
+        }
+  }
       if(currentAction.type.id === "sol"){
-        console.log("Sending Solana");
+        try{
+          console.log("1");
+          const metadata = currentAction.metadata as any;
+          console.log("metadata: ", metadata);
+          console.log("2");
+          const amount = parse(metadata.amount, zapRunMetadata);
+          const address = parse(metadata.address, zapRunMetadata);
+          console.log(`Sending out SOL of ${amount} to address ${address}`);
+          // await sendSol(address, amount);
+        }
+        catch(e){
+          console.log("SHIT HAPPENS");
+        }
       }
 
       if(currentAction.type.id === "notion"){
         console.log("Sending notion");
       }
-      
+      console.log("hello");
       await new Promise((r) => setTimeout(r, 1000)); // Stop the loop for a second
       console.log("(parseInt(message.offset) + 1).toString(): ", (parseInt(message.offset) + 1).toString());
 
