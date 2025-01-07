@@ -1,6 +1,7 @@
 import { Kafka } from "kafkajs";
 import prisma from "@repo/db/client";
 import { parse } from "./parser";
+import { SendEmail } from "./email";
 require("dotenv").config();
 const TOPIC_NAME = "zap-events";
 
@@ -26,7 +27,8 @@ async function main() {
       }
       const parsedData = JSON.parse(message.value?.toString());
       const zapRunId = parsedData.zapRunId;
-      const stage = parsedData.stage;      
+      const stage = parsedData.stage;     
+      console.log("Processing Message: ", parsedData); 
       
       const zapRunDetails = await prisma.zapRun.findFirst({
         where : {
@@ -45,6 +47,7 @@ async function main() {
         }
       })
 
+      //
       const currentAction = zapRunDetails?.zap.actions.find((a) => a.sortingOrder === stage);
 
       if(!currentAction){
@@ -55,15 +58,30 @@ async function main() {
       console.log("Processing Action: ", currentAction);
 
       const zapRunMetadata = zapRunDetails?.metadata;
-      console.log("zapRunMetadata: ", zapRunMetadata);
+      console.log("zapRunMetadata / META DATA TO BE PUT IN THIS ABOVE ACTION: ", zapRunMetadata);
 
       if(currentAction.type.id === "email"){
         try{
-          const metadata = currentAction.metadata as any;
-          console.log("metadata: ", metadata);
-          const body = parse(metadata.body, zapRunMetadata);
-          const to = parse(metadata.email, zapRunMetadata);
-          console.log(`Sending out email to ${to} body is ${body}`)
+            const metadata = currentAction.metadata as any;
+            console.log("metadata: ", metadata);
+            let body, to;
+            try {
+            body = parse(metadata.body, zapRunMetadata);
+            } catch (e) {
+            console.error("Failed to parse email body:");
+            }
+            try {
+            to = parse(metadata.email, zapRunMetadata);
+            } catch (e) {
+            console.error("Failed to parse email address:");
+            }
+            console.log(`Sending out email to ${to} body is ${body}`)
+            if (to && body) {
+                await SendEmail(to, body);
+            }
+            else{
+              console.log("Email or Body is not present");
+            }
         }
         catch(e){
           console.log("SHIT HAPPENS");
@@ -72,16 +90,24 @@ async function main() {
   }
       if(currentAction.type.id === "sol"){
         try{
-          console.log("1");
           const metadata = currentAction.metadata as any;
           console.log("metadata: ", metadata);
-          console.log("2");
-          const amount = parse(metadata.amount, zapRunMetadata);
-          const address = parse(metadata.address, zapRunMetadata);
+          let amount, address;
+          try {
+            amount = parse(metadata.amount, zapRunMetadata);
+          } catch (e) {
+            console.error("Failed to parse SOL amount:");
+          }
+          try {
+            address = parse(metadata.address, zapRunMetadata);
+          } catch (e) {
+            console.error("Failed to parse SOL address:");
+          }
           console.log(`Sending out SOL of ${amount} to address ${address}`);
           // await sendSol(address, amount);
         }
         catch(e){
+
           console.log("SHIT HAPPENS");
         }
       }
@@ -89,9 +115,11 @@ async function main() {
       if(currentAction.type.id === "notion"){
         console.log("Sending notion");
       }
-      console.log("hello");
+
+
+
       await new Promise((r) => setTimeout(r, 1000)); // Stop the loop for a second
-      console.log("(parseInt(message.offset) + 1).toString(): ", (parseInt(message.offset) + 1).toString());
+      console.log("message.offset", (parseInt(message.offset) + 1).toString());
 
       const lastStage = zapRunDetails?.zap?.actions ? zapRunDetails.zap.actions.length - 1 : -1;
 
@@ -99,6 +127,7 @@ async function main() {
         console.log("No Actions Found");
         return;
       }
+
       if(lastStage !==  stage){
 
         //this will Push the Message to Kafka Again that we have processed the current message
@@ -115,7 +144,7 @@ async function main() {
       }
 
       if(stage === lastStage){
-        console.log("All actions processed");
+        console.log("All actions processed THIS IS THE END");
         return;
       }
       //What we are doing is that we are telling kafka to pick the next message only 
