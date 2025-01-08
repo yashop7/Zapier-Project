@@ -2,6 +2,7 @@ import { Kafka } from "kafkajs";
 import prisma from "@repo/db/client";
 import { parse } from "./parser";
 import { SendEmail } from "./email";
+import { sendSol } from "./solana";
 require("dotenv").config();
 const TOPIC_NAME = "zap-events";
 
@@ -104,7 +105,11 @@ async function main() {
             console.error("Failed to parse SOL address:");
           }
           console.log(`Sending out SOL of ${amount} to address ${address}`);
-          // await sendSol(address, amount);
+          if (address && amount) {
+            await sendSol(address, amount);
+          } else {
+            console.log("Missing or invalid address/amount");
+          }
         }
         catch(e){
 

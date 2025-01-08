@@ -15,19 +15,25 @@ const transport = nodemailer.createTransport({
 
 export async function SendEmail(to : string , body : string){
     //Sending to the Particular user
+    const mail = "12216036@nitkkr.ac.in"
     try{
+      if (!to || !body) {
+        throw new Error("Email recipient and body are required");
+    }
       console.log("Sending Email to ", to);
       console.log("Sending Email to ", body);
-      console.log(process.env.SMTP_SERVER);
-      await transport.sendMail({
-          from: "12216036@nitkkr.ac.in",
-          sender: "12216036@nitkkr.ac.in",
-          to,
-          subject: "Hello from Zapier",
-          text: body
+      const response = await transport.sendMail({
+        from: mail,
+        sender: mail,
+        to,
+        subject: "Hello from Zapier",
+        text: body
       })
+      console.log("response: ", response);
+      console.log("Email Sent");
     }
     catch(e){
+      console.error(e);
       console.error("Failed to send email");
     }
 
