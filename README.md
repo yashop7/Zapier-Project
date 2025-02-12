@@ -1,85 +1,69 @@
-<<<<<<< HEAD
-# Zapier-Project
-=======
-# Turborepo starter
+# Floley
+<img width="1003" alt="Screenshot 2025-02-12 at 6 23 01 PM" src="https://github.com/user-attachments/assets/78ca724b-919a-4bf2-82e2-332c025e428f" />
 
-This is an official starter Turborepo.
+Floley is an automation platform similar to Zapier, allowing users to set up triggers and actions to automate tasks such as sending emails and transferring Solana tokens. It provides a seamless way to integrate different services and execute workflows based on event-driven architecture.
 
-## Using this example
+## Features
+- **Triggers:** Define events that initiate workflows (e.g., GitHub webhook events, database changes, API calls).
+- **Actions:** Execute tasks in response to triggers (e.g., send emails, transfer Solana tokens).
+- **Event Processing:** Uses Kafka for message queuing and distributed event processing.
+- **Scalability:** Backend architecture supports multiple workers for handling automation at scale.
 
-Run the following command:
+## Architecture Overview
+- **Frontend (FE):** UI for users to create and manage "Zaps" (workflows with triggers and actions).
+- **Backend (BE):** API layer handling requests from the frontend and interacting with the database.
+- **Database (DB):** Stores triggers, actions, and event logs.
+- **Kafka:** Message broker to handle event-driven workflows.
+- **Workers:** Process queued events and execute corresponding actions.
+- **Processor:** Manages workflow execution and ensures actions are performed reliably.
 
-```sh
-npx create-turbo@latest
-```
+## Technologies Used
+- **Frontend:** React, Next.js, Tailwind CSS
+- **Backend:** Node.js, Express, Prisma, PostgreSQL
+- **Messaging:** Apache Kafka
+- **Blockchain Integration:** Solana SDK for token transfers
+- **External APIs:** Email services (e.g., SendGrid, Nodemailer)
 
-## What's inside?
+## Installation
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/your-username/floley.git
+   cd floley
+   ```
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+3. Set up environment variables:
+   - Database connection URL
+   - Kafka broker details
+   - API keys for external services
+   - Solana wallet credentials
+   
+4. Start the backend server:
+   ```sh
+   npm run dev
+   ```
+5. Start the frontend:
+   ```sh
+   cd frontend
+   npm run dev
+   ```
+6. Run Kafka services and workers as required.
 
-This Turborepo includes the following packages/apps:
+## Usage
+- Users can log in and create workflows by selecting a **trigger** and linking it to one or more **actions**.
+- When a trigger event occurs (e.g., GitHub webhook fires), Floley processes it via Kafka and executes the defined actions.
+- Actions like **sending an email** or **transferring Solana tokens** will be executed asynchronously by the worker nodes.
 
-### Apps and Packages
+## Future Enhancements
+- Web3 wallet authentication
+- More integrations with third-party services
+- Enhanced logging and monitoring with Prometheus & Grafana
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+## Contributing
+Pull requests are welcome! Please open an issue for discussion before submitting major changes.
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+## License
+MIT License
 
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
->>>>>>> Start
