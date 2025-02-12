@@ -1,6 +1,9 @@
 # Floley
 <img width="1003" alt="Screenshot 2025-02-12 at 6 23 01 PM" src="https://github.com/user-attachments/assets/78ca724b-919a-4bf2-82e2-332c025e428f" />
 
+<img width="1120" alt="Screenshot 2025-02-12 at 6 47 42 PM" src="https://github.com/user-attachments/assets/7ad5748c-251d-4693-bb52-7d1ea7830462" />
+<img width="1119" alt="Screenshot 2025-02-12 at 6 49 01 PM" src="https://github.com/user-attachments/assets/82da8c93-ea94-472f-8356-e30dae01d2dc" />
+
 Floley is an automation platform similar to Zapier, allowing users to set up triggers and actions to automate tasks such as sending emails and transferring Solana tokens. It provides a seamless way to integrate different services and execute workflows based on event-driven architecture.
 
 ## Features
